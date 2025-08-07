@@ -6,21 +6,43 @@
   <title>分類名片</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    /* 簡易卡片樣式 */
+    body {
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
     .card {
-      max-width: 320px;
-      background: white;
-      padding: 16px;
-      margin: 12px auto;
+      max-width: 360px;
+      background: #fff;
+      padding: 20px;
+      margin: 20px auto;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
     }
+
     .card img {
       width: 100%;
       border-radius: 8px;
       margin-bottom: 12px;
     }
+
+    .card h2 {
+      margin-bottom: 8px;
+      color: #222;
+    }
+
+    .card p {
+      margin: 6px 0;
+      color: #555;
+    }
+
     .line-square-btn {
       display: inline-flex;
       align-items: center;
@@ -37,32 +59,47 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       margin-top: 12px;
     }
+
     .line-square-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .back-link a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <h1>📇 名片列表</h1>
   <div id="card-list"></div>
-  <p><a href="index.html">← 回分類</a></p>
+  <div class="back-link">
+    <a href="index.html">← 回分類</a>
+  </div>
 
   <script>
-    // 名片資料 JSON（可擴充）
     const data = {
       "real-estate": [
         {
           name: "王大明",
           phone: "0911222333",
           lineId: "@wangdaming",
-          img: "https://via.placeholder.com/300x180?text=房仲業-王大明"
+          intro: "擁有10年房仲經驗，專營北部房市買賣與租賃。",
+          img: "https://via.placeholder.com/300x180?text=房仲-王大明"
         },
         {
           name: "李小美",
           phone: "0922333444",
           lineId: "@lixiaomei",
-          img: "https://via.placeholder.com/300x180?text=房仲業-李小美"
+          intro: "親切服務、專業估價，讓您買房無煩惱。",
+          img: "https://via.placeholder.com/300x180?text=房仲-李小美"
         }
       ],
       "food-service": [
@@ -70,13 +107,15 @@
           name: "阿忠牛肉麵",
           phone: "0912345678",
           lineId: "@azhong",
-          img: "https://via.placeholder.com/300x180?text=餐飲業-阿忠牛肉麵"
+          intro: "祖傳三代老店，湯頭濃郁、肉質滑嫩。",
+          img: "https://via.placeholder.com/300x180?text=牛肉麵"
         },
         {
           name: "小林拉麵",
           phone: "0933444555",
           lineId: "@xiaolin",
-          img: "https://via.placeholder.com/300x180?text=餐飲業-小林拉麵"
+          intro: "正宗日式拉麵，湯頭濃郁、麵條Q彈。",
+          img: "https://via.placeholder.com/300x180?text=拉麵"
         }
       ],
       "electrical-repair": [
@@ -84,7 +123,8 @@
           name: "大華水電",
           phone: "0955666777",
           lineId: "@dahua",
-          img: "https://via.placeholder.com/300x180?text=水電維修-大華水電"
+          intro: "台北在地服務，電路、水管維修快速又專業。",
+          img: "https://via.placeholder.com/300x180?text=水電"
         }
       ],
       "vehicle-service": [
@@ -92,24 +132,23 @@
           name: "阿強機車行",
           phone: "0988777666",
           lineId: "@aqiang",
-          img: "https://via.placeholder.com/300x180?text=機車行-阿強"
+          intro: "多年維修經驗，維修保養、零件更換皆可。",
+          img: "https://via.placeholder.com/300x180?text=機車行"
         }
       ]
     };
 
-    // 讀取網址參數 function
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
     }
 
-    // 動態渲染名片列表
     function renderCards(category) {
       const listEl = document.getElementById("card-list");
-      listEl.innerHTML = ""; // 清空內容
+      listEl.innerHTML = "";
 
       if(!category || !data[category]) {
-        listEl.innerHTML = "<p>找不到相關分類，請返回首頁重新選擇。</p>";
+        listEl.innerHTML = "<p>找不到這個分類，請回到首頁。</p>";
         return;
       }
 
@@ -119,17 +158,15 @@
           <div class="card">
             <img src="${card.img}" alt="${card.name} 名片" />
             <h2>${card.name}</h2>
+            <p>${card.intro}</p>
             <p>📞 <a href="tel:${card.phone}">${card.phone}</a></p>
-            <p>
-              <a href="https://line.me/ti/p/${card.lineId}" target="_blank" class="line-square-btn">LINE</a>
-            </p>
+            <a href="https://line.me/ti/p/${card.lineId}" target="_blank" class="line-square-btn">LINE</a>
           </div>
         `;
         listEl.insertAdjacentHTML("beforeend", cardHtml);
       });
     }
 
-    // 主程式執行點
     const categoryType = getQueryParam("type");
     renderCards(categoryType);
   </script>
