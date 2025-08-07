@@ -85,90 +85,99 @@
   </div>
 
   <script>
-    const data = {
-      "real-estate": [
-        {
-          name: "王大明",
-          phone: "0911222333",
-          lineId: "@wangdaming",
-          intro: "擁有10年房仲經驗，專營北部房市買賣與租賃。",
-          img: "https://via.placeholder.com/300x180?text=房仲-王大明"
-        },
-        {
-          name: "李小美",
-          phone: "0922333444",
-          lineId: "@lixiaomei",
-          intro: "親切服務、專業估價，讓您買房無煩惱。",
-          img: "https://via.placeholder.com/300x180?text=房仲-李小美"
-        }
-      ],
-      "food-service": [
-        {
-          name: "阿忠牛肉麵",
-          phone: "0912345678",
-          lineId: "@azhong",
-          intro: "祖傳三代老店，湯頭濃郁、肉質滑嫩。",
-          img: "https://via.placeholder.com/300x180?text=牛肉麵"
-        },
-        {
-          name: "小林拉麵",
-          phone: "0933444555",
-          lineId: "@xiaolin",
-          intro: "正宗日式拉麵，湯頭濃郁、麵條Q彈。",
-          img: "https://via.placeholder.com/300x180?text=拉麵"
-        }
-      ],
-      "electrical-repair": [
-        {
-          name: "大華水電",
-          phone: "0955666777",
-          lineId: "@dahua",
-          intro: "台北在地服務，電路、水管維修快速又專業。",
-          img: "https://via.placeholder.com/300x180?text=水電"
-        }
-      ],
-      "vehicle-service": [
-        {
-          name: "阿強機車行",
-          phone: "0988777666",
-          lineId: "@aqiang",
-          intro: "多年維修經驗，維修保養、零件更換皆可。",
-          img: "https://via.placeholder.com/300x180?text=機車行"
-        }
-      ]
-    };
-
-    function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
-
-    function renderCards(category) {
-      const listEl = document.getElementById("card-list");
-      listEl.innerHTML = "";
-
-      if(!category || !data[category]) {
-        listEl.innerHTML = "<p>找不到這個分類，請回到首頁。</p>";
-        return;
+  const data = {
+    "real-estate": [
+      {
+        name: "王大明",
+        phone: "0911222333",
+        lineId: "@wangdaming",
+        intro: "擁有10年房仲經驗，專營北部房市買賣與租賃。",
+        images: [
+          "https://via.placeholder.com/300x180?text=王大明1",
+          "https://via.placeholder.com/300x180?text=王大明2"
+        ]
+      },
+      {
+        name: "李小美",
+        phone: "0922333444",
+        lineId: "@lixiaomei",
+        intro: "親切服務、專業估價，讓您買房無煩惱。",
+        images: [
+          "https://via.placeholder.com/300x180?text=李小美1"
+        ]
       }
+    ],
+    "food-service": [
+      {
+        name: "阿忠牛肉麵",
+        phone: "0912345678",
+        lineId: "@azhong",
+        intro: "祖傳三代老店，湯頭濃郁、肉質滑嫩。",
+        images: [
+          "https://via.placeholder.com/300x180?text=阿忠牛肉麵1",
+          "https://via.placeholder.com/300x180?text=阿忠牛肉麵2"
+        ]
+      }
+    ],
+    "electrical-repair": [
+      {
+        name: "大華水電",
+        phone: "0955666777",
+        lineId: "@dahua",
+        intro: "台北在地服務，電路、水管維修快速又專業。",
+        images: [
+          "https://via.placeholder.com/300x180?text=大華水電1"
+        ]
+      }
+    ],
+    "vehicle-service": [
+      {
+        name: "阿強機車行",
+        phone: "0988777666",
+        lineId: "@aqiang",
+        intro: "多年維修經驗，維修保養、零件更換皆可。",
+        images: [
+          "https://via.placeholder.com/300x180?text=阿強機車行1"
+        ]
+      }
+    ]
+  };
 
-      const cards = data[category];
-      cards.forEach(card => {
-        const cardHtml = `
-          <div class="card">
-            <img src="${card.img}" alt="${card.name} 名片" />
-            <h2>${card.name}</h2>
-            <p>${card.intro}</p>
-            <p>📞 <a href="tel:${card.phone}">${card.phone}</a></p>
-            <a href="https://line.me/ti/p/${card.lineId}" target="_blank" class="line-square-btn">LINE</a>
-          </div>
-        `;
-        listEl.insertAdjacentHTML("beforeend", cardHtml);
-      });
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  function renderCards(category) {
+    const listEl = document.getElementById("card-list");
+    listEl.innerHTML = "";
+
+    if (!category || !data[category]) {
+      listEl.innerHTML = "<p>找不到這個分類，請回到首頁。</p>";
+      return;
     }
 
-    const categoryType = getQueryParam("type");
-    renderCards(categoryType);
-  </script>
+    const cards = data[category];
+    cards.forEach(card => {
+      const imageHtml = (card.images || []).map(src => 
+        `<img src="${src}" alt="${card.name}" class="thumbnail">`
+      ).join("");
+
+      const cardHtml = `
+        <div class="card">
+          <div class="image-group">${imageHtml}</div>
+          <h2>${card.name}</h2>
+          <p>${card.intro}</p>
+          <p>📞 <a href="tel:${card.phone}">${card.phone}</a></p>
+          <a href="https://line.me/ti/p/${card.lineId.replace(/^@/, '')}" target="_blank" class="line-square-btn">LINE</a>
+        </div>
+      `;
+      listEl.insertAdjacentHTML("beforeend", cardHtml);
+    });
+  }
+
+  const categoryType = getQueryParam("type");
+  renderCards(categoryType);
+</script>
 </body>
 </html>
