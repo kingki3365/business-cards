@@ -1,14 +1,137 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>名片清單</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>分類名片</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* 簡易卡片樣式 */
+    .card {
+      max-width: 320px;
+      background: white;
+      padding: 16px;
+      margin: 12px auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .line-square-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      background-color: #06C755;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-top: 12px;
+    }
+    .line-square-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+  </style>
 </head>
 <body>
-  <h1 id="category-title">載入中...</h1>
-  <div id="agent-list" class="agent-list"></div>
-  <script src="js/loadAgents.js"></script>
+  <h1>📇 名片列表</h1>
+  <div id="card-list"></div>
+  <p><a href="index.html">← 回分類</a></p>
+
+  <script>
+    // 名片資料 JSON（可擴充）
+    const data = {
+      "real-estate": [
+        {
+          name: "王大明",
+          phone: "0911222333",
+          lineId: "@wangdaming",
+          img: "https://via.placeholder.com/300x180?text=房仲業-王大明"
+        },
+        {
+          name: "李小美",
+          phone: "0922333444",
+          lineId: "@lixiaomei",
+          img: "https://via.placeholder.com/300x180?text=房仲業-李小美"
+        }
+      ],
+      "food-service": [
+        {
+          name: "阿忠牛肉麵",
+          phone: "0912345678",
+          lineId: "@azhong",
+          img: "https://via.placeholder.com/300x180?text=餐飲業-阿忠牛肉麵"
+        },
+        {
+          name: "小林拉麵",
+          phone: "0933444555",
+          lineId: "@xiaolin",
+          img: "https://via.placeholder.com/300x180?text=餐飲業-小林拉麵"
+        }
+      ],
+      "electrical-repair": [
+        {
+          name: "大華水電",
+          phone: "0955666777",
+          lineId: "@dahua",
+          img: "https://via.placeholder.com/300x180?text=水電維修-大華水電"
+        }
+      ],
+      "vehicle-service": [
+        {
+          name: "阿強機車行",
+          phone: "0988777666",
+          lineId: "@aqiang",
+          img: "https://via.placeholder.com/300x180?text=機車行-阿強"
+        }
+      ]
+    };
+
+    // 讀取網址參數 function
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    // 動態渲染名片列表
+    function renderCards(category) {
+      const listEl = document.getElementById("card-list");
+      listEl.innerHTML = ""; // 清空內容
+
+      if(!category || !data[category]) {
+        listEl.innerHTML = "<p>找不到相關分類，請返回首頁重新選擇。</p>";
+        return;
+      }
+
+      const cards = data[category];
+      cards.forEach(card => {
+        const cardHtml = `
+          <div class="card">
+            <img src="${card.img}" alt="${card.name} 名片" />
+            <h2>${card.name}</h2>
+            <p>📞 <a href="tel:${card.phone}">${card.phone}</a></p>
+            <p>
+              <a href="https://line.me/ti/p/${card.lineId}" target="_blank" class="line-square-btn">LINE</a>
+            </p>
+          </div>
+        `;
+        listEl.insertAdjacentHTML("beforeend", cardHtml);
+      });
+    }
+
+    // 主程式執行點
+    const categoryType = getQueryParam("type");
+    renderCards(categoryType);
+  </script>
 </body>
 </html>
