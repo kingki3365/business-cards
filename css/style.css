@@ -27,3 +27,27 @@ h1 {
   color: #333;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+.line-square-btn {
+  display: inline-block;
+  background-color: #00c300;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 0 #009e00;
+  text-decoration: none;
+}
+
+.thumbnail {
+  width: 100px;
+  height: 60px;
+  object-fit: cover;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.image-group {
+  margin-bottom: 10px;
+}
