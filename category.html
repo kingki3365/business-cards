@@ -209,9 +209,15 @@ function renderCards(category) {
       `<img src="${src}" alt="${card.name}" class="thumbnail" data-index="${idx}" data-category="${category}" data-name="${card.name}">`
     ).join("");
 
-    const lineButtonHtml = card.lineId
-      ? `<a href="https://line.me/ti/p/${card.lineId.replace(/^@/, '')}" target="_blank" class="line-square-btn">LINE</a>`
-      : "";
+    const lineButtonHtml = (() => {
+  if (card.lineUrl) {
+    return `<a href="${card.lineUrl}" target="_blank" class="line-square-btn">LINE</a>`;
+  } else if (card.lineId) {
+    return `<a href="https://line.me/ti/p/${card.lineId.replace(/^@/, '')}" target="_blank" class="line-square-btn">LINE</a>`;
+  } else {
+    return "";
+  }
+})();
 
     const cardHtml = `
       <div class="card">
