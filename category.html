@@ -9,6 +9,7 @@
       font-family: sans-serif;
       background-color: #f4f4f4;
       padding: 20px;
+      margin: 0;
     }
     h1 {
       text-align: center;
@@ -27,6 +28,9 @@
       width: 100%;
       border-radius: 8px;
       margin-bottom: 12px;
+      cursor: pointer;
+      object-fit: cover;
+      height: 180px;
     }
     .card h2 {
       margin-bottom: 8px;
@@ -35,6 +39,7 @@
     .card p {
       margin: 6px 0;
       color: #555;
+      word-break: break-word;
     }
     .line-square-btn {
       display: inline-flex;
@@ -65,6 +70,35 @@
       color: #333;
       font-weight: bold;
     }
+
+    /* Lightbox彈窗 */
+    #lightbox-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    #lightbox-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.6);
+    }
+    #lightbox-close {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 36px;
+      color: white;
+      cursor: pointer;
+      z-index: 10000;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
@@ -72,6 +106,12 @@
   <div id="card-list"></div>
   <div class="back-link">
     <a href="index.html">← 回分類</a>
+  </div>
+
+  <!-- Lightbox彈窗 -->
+  <div id="lightbox-overlay">
+    <div id="lightbox-close">&times;</div>
+    <img id="lightbox-img" src="" alt="放大圖片" />
   </div>
 
 <script>
@@ -106,8 +146,8 @@ const data = {
       address: "台南市安平區安平路95號",
       intro: "只有安平在地人才會知道的飲料店！",
       images: [
-        "image/步步昇1.jpg",
-        "image/步步昇2.jpg"
+        "images/步步昇1.jpg",
+        "images/步步昇2.jpg"
       ]
     }
   ],
@@ -152,8 +192,8 @@ function renderCards(category) {
   }
 
   data[category].forEach(card => {
-    const imageHtml = (card.images || []).map(src =>
-      `<img src="${src}" alt="${card.name}" class="thumbnail">`
+    const imageHtml = (card.images || []).map((src, idx) =>
+      `<img src="${src}" alt="${card.name}" class="thumbnail" data-index="${idx}" data-category="${category}" data-name="${card.name}">`
     ).join("");
 
     const lineButtonHtml = card.lineId
@@ -172,7 +212,36 @@ function renderCards(category) {
     `;
     listEl.insertAdjacentHTML("beforeend", cardHtml);
   });
+
+  // 監聽圖片點擊事件，開啟lightbox
+  document.querySelectorAll(".thumbnail").forEach(img => {
+    img.addEventListener("click", event => {
+      const src = event.target.src;
+      openLightbox(src);
+    });
+  });
 }
+
+function openLightbox(src) {
+  const overlay = document.getElementById("lightbox-overlay");
+  const lightboxImg = document.getElementById("lightbox-img");
+  lightboxImg.src = src;
+  overlay.style.display = "flex";
+}
+
+function closeLightbox() {
+  const overlay = document.getElementById("lightbox-overlay");
+  overlay.style.display = "none";
+  const lightboxImg = document.getElementById("lightbox-img");
+  lightboxImg.src = "";
+}
+
+// 點擊遮罩關閉
+document.getElementById("lightbox-overlay").addEventListener("click", e => {
+  if (e.target.id === "lightbox-overlay" || e.target.id === "lightbox-close") {
+    closeLightbox();
+  }
+});
 
 const categoryType = getQueryParam("type");
 renderCards(categoryType);
