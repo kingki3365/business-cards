@@ -103,7 +103,6 @@ const data = {
     {
       name: "步步昇茶飲專賣店",
       phone: "0980959593",
-     
       address: "台南市安平區安平路95號",
       intro: "只有安平在地人才會知道的飲料店！",
       images: [
@@ -157,6 +156,10 @@ function renderCards(category) {
       `<img src="${src}" alt="${card.name}" class="thumbnail">`
     ).join("");
 
+    const lineButtonHtml = card.lineId
+      ? `<a href="https://line.me/ti/p/${card.lineId.replace(/^@/, '')}" target="_blank" class="line-square-btn">LINE</a>`
+      : "";
+
     const cardHtml = `
       <div class="card">
         <div class="image-group">${imageHtml}</div>
@@ -164,7 +167,7 @@ function renderCards(category) {
         <p>${card.intro}</p>
         <p>📞 <a href="tel:${card.phone}">${card.phone}</a></p>
         <p>📍 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(card.address)}" target="_blank">${card.address}</a></p>
-        <a href="https://line.me/ti/p/${card.lineId.replace(/^@/, '')}" target="_blank" class="line-square-btn">LINE</a>
+        ${lineButtonHtml}
       </div>
     `;
     listEl.insertAdjacentHTML("beforeend", cardHtml);
