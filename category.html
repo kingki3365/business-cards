@@ -145,6 +145,7 @@ const data = {
       phone: "0980959593",
       address: "台南市安平區安平路95號",
       intro: "只有安平在地人才會知道的飲料店！",
+     hours:"早上0630-1900,禮拜一固定公休！",
       images: [
         "image/步步昇1.jpg",
         "image/步步昇2.jpg"
@@ -204,6 +205,7 @@ function renderCards(category) {
       <div class="card">
         <div class="image-group">${imageHtml}</div>
         <h2>${card.name}</h2>
+${card.hours ? `<p><strong>營業時間：</strong>${card.hours}</p>` : ""}
         <p>${card.intro}</p>
         <p>📞 <a href="tel:${card.phone}">${card.phone}</a></p>
         <p>📍 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(card.address)}" target="_blank">${card.address}</a></p>
