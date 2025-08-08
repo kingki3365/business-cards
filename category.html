@@ -4,19 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>分類名片</title>
-  <link rel="stylesheet" href="css/style.css" />
   <style>
     body {
       font-family: sans-serif;
       background-color: #f4f4f4;
       padding: 20px;
     }
-
     h1 {
       text-align: center;
       color: #333;
     }
-
     .card {
       max-width: 360px;
       background: #fff;
@@ -26,23 +23,19 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
     }
-
-    .card img {
+    .thumbnail {
       width: 100%;
       border-radius: 8px;
       margin-bottom: 12px;
     }
-
     .card h2 {
       margin-bottom: 8px;
       color: #222;
     }
-
     .card p {
       margin: 6px 0;
       color: #555;
     }
-
     .line-square-btn {
       display: inline-flex;
       align-items: center;
@@ -59,17 +52,14 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       margin-top: 12px;
     }
-
     .line-square-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 12px rgba(0,0,0,0.3);
     }
-
     .back-link {
       text-align: center;
       margin-top: 40px;
     }
-
     .back-link a {
       text-decoration: none;
       color: #333;
@@ -84,100 +74,105 @@
     <a href="index.html">← 回分類</a>
   </div>
 
-  <script>
-  const data = {
-    "real-estate": [
-      {
-        name: "王大明",
-        phone: "0911222333",
-        lineId: "@wangdaming",
-        intro: "擁有10年房仲經驗，專營北部房市買賣與租賃。",
-        images: [
-          "https://via.placeholder.com/300x180?text=王大明1",
-          "https://via.placeholder.com/300x180?text=王大明2"
-        ]
-      },
-      {
-        name: "李小美",
-        phone: "0922333444",
-        lineId: "@lixiaomei",
-        intro: "親切服務、專業估價，讓您買房無煩惱。",
-        images: [
-          "https://via.placeholder.com/300x180?text=李小美1"
-        ]
-      }
-    ],
-    "food-service": [
-      {
-        name: "阿忠牛肉麵",
-        phone: "0912345678",
-        lineId: "@azhong",
-        intro: "祖傳三代老店，湯頭濃郁、肉質滑嫩。",
-        images: [
-          "https://via.placeholder.com/300x180?text=阿忠牛肉麵1",
-          "https://via.placeholder.com/300x180?text=阿忠牛肉麵2"
-        ]
-      }
-    ],
-    "electrical-repair": [
-      {
-        name: "大華水電",
-        phone: "0955666777",
-        lineId: "@dahua",
-        intro: "台北在地服務，電路、水管維修快速又專業。",
-        images: [
-          "https://via.placeholder.com/300x180?text=大華水電1"
-        ]
-      }
-    ],
-    "vehicle-service": [
-      {
-        name: "阿強機車行",
-        phone: "0988777666",
-        lineId: "@aqiang",
-        intro: "多年維修經驗，維修保養、零件更換皆可。",
-        images: [
-          "https://via.placeholder.com/300x180?text=阿強機車行1"
-        ]
-      }
-    ]
-  };
-
-  function getQueryParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-  }
-
-  function renderCards(category) {
-    const listEl = document.getElementById("card-list");
-    listEl.innerHTML = "";
-
-    if (!category || !data[category]) {
-      listEl.innerHTML = "<p>找不到這個分類，請回到首頁。</p>";
-      return;
+<script>
+const data = {
+  "real-estate": [
+    {
+      name: "王大明",
+      phone: "0911222333",
+      lineId: "@wangdaming",
+      address: "台北市信義區市府路45號",
+      intro: "擁有10年房仲經驗，專營北部房市買賣與租賃。",
+      images: [
+        "images/王大明1.jpg",
+        "images/王大明2.jpg"
+      ]
+    },
+    {
+      name: "李小美",
+      phone: "0922333444",
+      lineId: "@lixiaomei",
+      address: "台北市大安區和平東路10號",
+      intro: "親切服務、專業估價，讓您買房無煩惱。",
+      images: [
+        "images/李小美1.jpg"
+      ]
     }
+  ],
+  "food-service": [
+    {
+      name: "阿忠牛肉麵",
+      phone: "0912345678",
+      lineId: "@azhong",
+      address: "台北市中山區南京東路100號",
+      intro: "祖傳三代老店，湯頭濃郁、肉質滑嫩。",
+      images: [
+        "images/阿忠牛肉麵1.jpg",
+        "images/阿忠牛肉麵2.jpg"
+      ]
+    }
+  ],
+  "electrical-repair": [
+    {
+      name: "大華水電",
+      phone: "0955666777",
+      lineId: "@dahua",
+      address: "台北市萬華區西園路二段50號",
+      intro: "台北在地服務，電路、水管維修快速又專業。",
+      images: [
+        "images/大華水電1.jpg"
+      ]
+    }
+  ],
+  "vehicle-service": [
+    {
+      name: "阿強機車行",
+      phone: "0988777666",
+      lineId: "@aqiang",
+      address: "台北市士林區文林路300號",
+      intro: "多年維修經驗，維修保養、零件更換皆可。",
+      images: [
+        "images/阿強機車行1.jpg"
+      ]
+    }
+  ]
+};
 
-    const cards = data[category];
-    cards.forEach(card => {
-      const imageHtml = (card.images || []).map(src => 
-        `<img src="${src}" alt="${card.name}" class="thumbnail">`
-      ).join("");
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
 
-      const cardHtml = `
-        <div class="card">
-          <div class="image-group">${imageHtml}</div>
-          <h2>${card.name}</h2>
-          <p>${card.intro}</p>
-          <p>📞 <a href="tel:${card.phone}">${card.phone}</a></p>
-          <a href="https://line.me/ti/p/${card.lineId.replace(/^@/, '')}" target="_blank" class="line-square-btn">LINE</a>
-        </div>
-      `;
-      listEl.insertAdjacentHTML("beforeend", cardHtml);
-    });
+function renderCards(category) {
+  const listEl = document.getElementById("card-list");
+  listEl.innerHTML = "";
+
+  if (!category || !data[category]) {
+    listEl.innerHTML = "<p>找不到這個分類，請回到首頁。</p>";
+    return;
   }
 
-  const categoryType = getQueryParam("type");
-  renderCards(categoryType);
+  data[category].forEach(card => {
+    const imageHtml = (card.images || []).map(src =>
+      `<img src="${src}" alt="${card.name}" class="thumbnail">`
+    ).join("");
+
+    const cardHtml = `
+      <div class="card">
+        <div class="image-group">${imageHtml}</div>
+        <h2>${card.name}</h2>
+        <p>${card.intro}</p>
+        <p>📞 <a href="tel:${card.phone}">${card.phone}</a></p>
+        <p>📍 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(card.address)}" target="_blank">${card.address}</a></p>
+        <a href="https://line.me/ti/p/${card.lineId.replace(/^@/, '')}" target="_blank" class="line-square-btn">LINE</a>
+      </div>
+    `;
+    listEl.insertAdjacentHTML("beforeend", cardHtml);
+  });
+}
+
+const categoryType = getQueryParam("type");
+renderCards(categoryType);
 </script>
 </body>
 </html>
