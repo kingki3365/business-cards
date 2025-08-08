@@ -246,12 +246,12 @@ function renderCards(category) {
     const cardHtml = `
       <div class="card">
         <div class="image-group">${imageHtml}</div>
-        <h2>${card.name}</h2>
+       <h2>${card.name}</h2>
 ${card.hours ? `<p><strong>營業時間：</strong>${card.hours}</p>` : ""}
-        <p>${card.intro}</p>
-        <p>📞 <a href="tel:${card.phone}">${card.phone}</a></p>
-        <p>📍 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(card.address)}" target="_blank">${card.address}</a></p>
-        ${lineButtonHtml}
+<p>${card.intro}</p>
+${card.phone ? `<p>📞 <a href="tel:${card.phone}">${card.phone}</a></p>` : ""}
+<p>📍 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(card.address)}" target="_blank">${card.address}</a></p>
+${lineButtonHtml}
       </div>
     `;
     listEl.insertAdjacentHTML("beforeend", cardHtml);
